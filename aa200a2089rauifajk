@@ -285,7 +285,7 @@ function Cheat:Perform()
                 Cheat.Hit2()
                 Cheat.EnableKen()
                 Cheat.EnableBuso()
-            until not Entity:FindFirstChildOfClass("Humanoid") or Entity:FindFirstChildOfClass("Humanoid").Health <= 0 or not self:IsQuest()
+            until not Entity:FindFirstChildOfClass("Humanoid") or Entity:FindFirstChildOfClass("Humanoid").Health <= 0 or not self:IsQuest()  or not getgenv().SaveSettings["AutoFarm_Level"]
         else
             local NPCs = self:GetNPCs()
             if NPCs then
@@ -435,6 +435,40 @@ do
     end)
 
 end
+
+task.spawn(function()
+    game:getService("RunService"):UnbindFromRenderStep("noclOppl") game:getService("RunService"):BindToRenderStep("noclOppl",0,function()
+        if getgenv().SaveSettings["AutoFarm_Level"] then
+            pcall(function ()
+                if setfflag then
+                    if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
+                        setfflag("HumanoidParallelRemoveNoPhysics", "False")
+                        setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
+                        game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid"):ChangeState(11)
+                    end
+                else
+                    if not game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("KRNLONAIR") then
+                        local KRNLONAIR = Instance.new("BodyVelocity")
+                        KRNLONAIR.Parent = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                        KRNLONAIR.Name = "KRNLONAIR"
+                        KRNLONAIR.MaxForce = Vector3.new(100000,100000,100000)
+                        KRNLONAIR.Velocity = Vector3.new(0,0,0)
+                    end
+                    for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                        if v:IsA("BasePart") and v.CanCollide == true then
+                            v.CanCollide = false
+                        end
+                    end
+                end
+            end)
+            
+        elseif game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("KRNLONAIR") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("KRNLONAIR"):Destroy()
+        end
+    end)
+end)
+
+
 
 -- Addons:
 -- SaveManager (Allows you to have a configuration system)
