@@ -193,7 +193,7 @@ function Cheat:Perform()
         local Entity = Cheat:GetEntityByName() -- หา mob ที่ใกล้ที่สุด
         if Entity then
             repeat task.wait()
-                LocalPlayer.Character.HumanoidRootPart.CFrame = Cheat.Teleport(Entity.HumanoidRootPart.CFrame)
+                LocalPlayer.Character.HumanoidRootPart.CFrame = Cheat.Teleport(Entity.HumanoidRootPart.CFrame,true)
                 self:EquipTool()
                 Cheat.Hit2()
                 Cheat.EnableKen()
@@ -405,7 +405,7 @@ do
         Default = getgenv().SaveSettings["Distance_Method"],
         Min = 0,
         Max = 20,
-        Rounding = 1,
+        Rounding = 0,
         Callback = function(Value)
             print("Distance changed:", Value)
         end
