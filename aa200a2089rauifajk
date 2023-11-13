@@ -82,6 +82,91 @@ function Cheat:Thread(func, ...) -- สร้าง thread ให้กับ fu
     end
 end
 
+------------ FUNCTION: Teleport, Haki, Buso , Keyboard-------------------
+
+
+Cheat.Teleport = function(Position)
+    if getgenv().SaveSettings["Method_Mob"] == "Above" then
+        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Position) * CFrame.new(0,getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(270),0,0)
+    elseif getgenv().SaveSettings["Method_Mob"] == "Under" then
+        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Position) * CFrame.new(0,0-getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(90),0,0)
+    else
+        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Position) * CFrame.new(0,0,getgenv().SaveSettings["Distance_Method"])
+    end
+end
+
+
+-- local DungeonTeleportCount = 1
+-- local CheckDungeon = 'Normal'
+-- Cheat.Teleport = function(Position,UseMethod)
+--     if typeof(Position) == "Vector3" then
+--         if UseMethod == true then
+--             if getgenv().SaveSettings["Method_Mob"] == "Above" then
+--                 RootPart.CFrame = CFrame.new(Position) * CFrame.new(0,getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(270),0,0)
+--             elseif getgenv().SaveSettings["Method_Mob"] == "Under" then
+--                 RootPart.CFrame = CFrame.new(Position) * CFrame.new(0,0-getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(90),0,0)
+--             else
+--                 RootPart.CFrame = CFrame.new(Position) * CFrame.new(0,0,getgenv().SaveSettings["Distance_Method"])
+--             end
+--         elseif UseMethod == "Island" then
+--             RootPart.CFrame = Position * CFrame.new(0,100,0)
+--         else
+--             RootPart.CFrame = CFrame.new(Position)
+--         end
+--     elseif typeof(Position) == "CFrame" then
+--         if UseMethod == true then
+--             if getgenv().SaveSettings["Method_Mob"] == "Above" then
+--                 RootPart.CFrame = Position * CFrame.new(0,getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(270),0,0)
+--             elseif getgenv().SaveSettings["Method_Mob"] == "Under" then
+--                 RootPart.CFrame = Position * CFrame.new(0,0-getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(90),0,0)
+--             else
+--                 RootPart.CFrame = Position * CFrame.new(0,0,getgenv().SaveSettings["Distance_Method"])
+--             end
+--         elseif UseMethod == "Island" then
+--             RootPart.CFrame = Position * CFrame.new(0,500,0)
+--         elseif UseMethod == "Random" then
+--             if DungeonTeleportCount >= 4 then
+--                 RootPart.CFrame = DungeonCFrame[CheckDungeon][DungeonTeleportCount]
+--                 DungeonTeleportCount = 1
+--             else
+--                 RootPart.CFrame = DungeonCFrame[CheckDungeon][DungeonTeleportCount]
+--                 DungeonTeleportCount = DungeonTeleportCount + 1
+--             end
+--             wait(.4)
+--         else
+--             LocalPlayer.Character.HumanoidRootPart.CFrame = Position
+--         end
+--     else
+--         print("Invalid Position Data : " .. typeof(Position))
+--     end
+-- end
+
+Cheat.EnableKen = function()
+    if LocalPlayer.Character.Humanoid.Health > 0 and LocalPlayer.PlayerStats.KenShopValue.Value == "KenHaki" then
+        if Char.KenOpen.Value == false then
+            Cheat.Keyboard("Y")
+        end
+    else
+        LocalPlayer.PlayerStats.KenShopValue.Value = "KenHaki"
+    end
+end
+Cheat.EnableBuso = function()
+    if LocalPlayer.Character.Humanoid.Health > 0 and game.Players.LocalPlayer.Character.Haki.Value == 0 then
+        game.Players.LocalPlayer.Character.Haki.Value = 1
+        game.Players.LocalPlayer.Character.Services.Client.Armament:FireServer()
+    end
+end
+
+
+Cheat.Keyboard = function(key)
+    if LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        game:GetService("VirtualInputManager"):SendKeyEvent(true,key,false,RootPart)
+        task.delay(0,function()
+            game:GetService("VirtualInputManager"):SendKeyEvent(false,key,false,RootPart)
+        end)
+    end
+end
+
 ---------- Function Quest ----------
 function Cheat:CombineTables(...) -- รวม table ทั้งหมดเข้าด้วยกัน
     local Tables = {...}
@@ -281,72 +366,6 @@ Cheat.Hit2 = function()
         ClickAttack()
     end)()
 end
-
------------- FUNCTION: Teleport, Haki, Buso -------------------
-local DungeonTeleportCount = 1
-local CheckDungeon = 'Normal'
-Cheat.Teleport = function(Position,UseMethod)
-    if typeof(Position) == "Vector3" then
-        if UseMethod == true then
-            if getgenv().SaveSettings["Method_Mob"] == "Above" then
-                RootPart.CFrame = CFrame.new(Position) * CFrame.new(0,getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(270),0,0)
-            elseif getgenv().SaveSettings["Method_Mob"] == "Under" then
-                RootPart.CFrame = CFrame.new(Position) * CFrame.new(0,0-getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(90),0,0)
-            else
-                RootPart.CFrame = CFrame.new(Position) * CFrame.new(0,0,getgenv().SaveSettings["Distance_Method"])
-            end
-        elseif UseMethod == "Island" then
-            RootPart.CFrame = Position * CFrame.new(0,100,0)
-        else
-            RootPart.CFrame = CFrame.new(Position)
-        end
-    elseif typeof(Position) == "CFrame" then
-        if UseMethod == true then
-            if getgenv().SaveSettings["Method_Mob"] == "Above" then
-                RootPart.CFrame = Position * CFrame.new(0,getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(270),0,0)
-            elseif getgenv().SaveSettings["Method_Mob"] == "Under" then
-                RootPart.CFrame = Position * CFrame.new(0,0-getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(90),0,0)
-            else
-                RootPart.CFrame = Position * CFrame.new(0,0,getgenv().SaveSettings["Distance_Method"])
-            end
-        elseif UseMethod == "Island" then
-            RootPart.CFrame = Position * CFrame.new(0,500,0)
-        elseif UseMethod == "Random" then
-            if DungeonTeleportCount >= 4 then
-                RootPart.CFrame = DungeonCFrame[CheckDungeon][DungeonTeleportCount]
-                DungeonTeleportCount = 1
-            else
-                RootPart.CFrame = DungeonCFrame[CheckDungeon][DungeonTeleportCount]
-                DungeonTeleportCount = DungeonTeleportCount + 1
-            end
-            wait(.4)
-        else
-            LocalPlayer.Character.HumanoidRootPart.CFrame = Position
-        end
-    else
-        print("Invalid Position Data : " .. typeof(Position))
-    end
-end
-Cheat.EnableKen = function()
-    if Hum.Health > 0 and LocalPlayer.PlayerStats.KenShopValue.Value == "KenHaki" then
-        if Char.KenOpen.Value == false then
-            Collection.Keyboard("Y")
-        end
-    else
-        LocalPlayer.PlayerStats.KenShopValue.Value = "KenHaki"
-    end
-end
-Cheat.EnableBuso = function()
-    if Hum.Health > 0 and game.Players.LocalPlayer.Character.Haki.Value == 0 then
-        game.Players.LocalPlayer.Character.Haki.Value = 1
-        game.Players.LocalPlayer.Character.Services.Client.Armament:FireServer()
-    end
-end
-
-
-
-
-
 
 
 --------------- UI Mobile ---------------------
