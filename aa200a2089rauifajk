@@ -420,20 +420,17 @@ do
         Save()
     end)
 
-    Tabs.Main:AddSlider("Distance_Method", {
+    local Distance_Method = Tabs.Main:AddSlider("Distance_Method", {
         Title = "Distance Attack",
         Description = "Sword = 13 Combat = 7",
         Default = getgenv().SaveSettings["Distance_Method"],
         Min = 0,
-        Max = 20,
+        Max = 30,
         Rounding = 0,
-        Callback = function(Value)
-            print("Distance changed:", Value)
-        end
     })
 
-    Distance_Method:OnChanged(function()
-        getgenv().SaveSettings["Distance_Method"] = Options.Distance_Method.Value
+    Distance_Method:OnChanged(function(Value)
+        getgenv().SaveSettings["Distance_Method"] = Value
         Save()
     end)
 
