@@ -86,12 +86,14 @@ end
 
 
 Cheat.Teleport = function(Position)
-    if getgenv().SaveSettings["Method_Mob"] == "Above" then
-        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Position) * CFrame.new(0,getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(270),0,0)
-    elseif getgenv().SaveSettings["Method_Mob"] == "Under" then
-        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Position) * CFrame.new(0,0-getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(90),0,0)
-    else
-        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Position) * CFrame.new(0,0,getgenv().SaveSettings["Distance_Method"])
+    if typeof(Position) == "CFrame" then
+        if getgenv().SaveSettings["Method_Mob"] == "Above" then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = Position * CFrame.new(0,getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(270),0,0)
+        elseif getgenv().SaveSettings["Method_Mob"] == "Under" then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = Position * CFrame.new(0,0-getgenv().SaveSettings["Distance_Method"],0) * CFrame.Angles(math.rad(90),0,0)
+        else
+            LocalPlayer.Character.HumanoidRootPart.CFrame = Position * CFrame.new(0,0,getgenv().SaveSettings["Distance_Method"])
+        end
     end
 end
 
